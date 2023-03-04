@@ -12,7 +12,7 @@ for (let i = 0; i < printers.length; i++) {
 const carrito = [];
 
 while (true) {
-  const seleccion = prompt("Ingrese el id del producto que desea agregar al carrito (o escriba 'terminar' para finalizar):");
+  const seleccion = prompt("Bienvenido a Makalú \nIngresa el id del producto que deseas agregar al carrito (o escribe 'terminar' para finalizar):");
   if (seleccion.toLowerCase() === "terminar") {
     break;
   }

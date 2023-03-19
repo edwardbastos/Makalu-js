@@ -1,42 +1,119 @@
-const printers = [
-  {id:1, nombre: "HP Laserjet Pro M521dn", precio: 2150, unidades: 9},
-  {id:2, nombre: "Kyocera FS M3655idn"   , precio: 1800, unidades: 7},
-  {id:3, nombre: "Lexmark XM3150"        , precio: 2300, unidades:11},
-];
+document.addEventListener("DOMContentLoaded", function() {
 
-console.log("Productos disponibles:");
-for (let i = 0; i < printers.length; i++) {
-  console.log(printers[i].id + ". " + printers[i].nombre + " ($ " + printers[i].precio + " USD) " + "Unidades: " + printers[i].unidades);
-}
+    const botonAgregar  = document.querySelectorAll('.boton-carrito');
+    const botonMas      = document.querySelector('.boton-mas')
+    const botonMenos    = document.querySelector('.boton-menos')
+    const itemsCarrito  = document.querySelector('#items');
+    const footerCarrito = document.querySelector('#footer-carrito');
 
-const carrito = [];
+    let carrito = [];
 
-while (true) {
-  const seleccion = prompt("Bienvenido a Makalú \nIngresa el id del producto que deseas agregar al carrito (o escribe 'terminar' para finalizar):");
-  if (seleccion.toLowerCase() === "terminar") {
-    break;
-  }
-  const producto = printers.find(function(p) {
-    return p.id === parseInt(seleccion);
-  });
-  if (producto) {
-    if (producto.unidades > 0) {
-      carrito.push(producto);
-      producto.unidades--;
-      console.log("\nProducto agregado al carrito: " + producto.nombre);
-    } else {
-      console.log("Lo sentimos, no hay unidades disponibles para este producto.");
+
+    function agregarAlCarrito(event) {
+
+        const boton = event.target;
+        const producto = boton.parentElement;
+        const id = producto.getAttribute('data-id');
+        const nombre = producto.querySelector('h3').textContent;
+        const precio = producto.getAttribute('data-precio');
+        const cantidad = 1;
+     
+        let itemExistente = carrito.find(item => item.id === id);
+        
+        if (itemExistente) {
+           itemExistente.cantidad++;
+        } else {
+           const item = {
+              id,
+              nombre,
+              precio,
+              cantidad
+           };
+           carrito.push(item);
+        }
+     
+        actualizarCarrito();
     }
-  } else {
-    console.log("ID de producto no válido.");
-  }
-}
 
-let total = 0;
-console.log("\nProductos en el carrito:");
-for (let i = 0; i < carrito.length; i++) {
-  console.log(carrito[i].nombre + " ($ " + carrito[i].precio + " USD)");
-  total += carrito[i].precio;
-}
+    function aumentarCantidad(index) {
 
-console.log("\n\nTotal de la compra: $" + total + " USD");
+        carrito[index].cantidad++;
+        actualizarCarrito();
+    }
+      
+    function disminuirCantidad(index) {
+        
+        if (carrito[index].cantidad > 1) {
+          carrito[index].cantidad--;
+        } else {
+          carrito.splice(index, 1);
+        }
+        actualizarCarrito();
+    }
+      
+
+    function actualizarCarrito() {
+
+        itemsCarrito.innerHTML = '';
+
+        carrito.forEach((item, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+            <th scope="row">${index + 1}</th>
+            <td>${item.nombre}</td>
+            <td>${item.cantidad}</td>
+            <td>
+                <button class="boton"  id="boton-mas"    onclick="aumentarCantidad(${index})">+</button>
+                <button class="boton"  id="boton-menos"  onclick="disminuirCantidad(${index})">-</button>
+            </td>
+            <td>$${item.precio}</td>
+            `;
+            itemsCarrito.appendChild(row);
+        });
+
+        actualizarFooter();
+
+    }
+
+
+    function actualizarFooter() {
+
+        const cantidadTotal = carrito.reduce((acc, item) => acc + item.cantidad, 0);
+        const precioTotal = carrito.reduce((acc, item) => acc + item.cantidad * item.precio, 0);
+
+        if (carrito.length === 0) {
+            footerCarrito.innerHTML = `
+            <th scope="row" colspan="5">Carrito vacío - comience a comprar!</th>
+            `;
+            return;
+        }
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <th scope="row" colspan="2">Total productos</th>
+            <td>${cantidadTotal}</td>
+            <td>
+            <button class="boton" id="vaciar-carrito">
+                vaciar todo
+            </button>
+            </td>
+            <td class="font-weight-bold">$ <span>${precioTotal}</span></td>
+        `;
+        footerCarrito.innerHTML = '';
+        footerCarrito.appendChild(row);
+    }
+
+    botonAgregar.forEach(boton => {
+    boton.addEventListener('click', agregarAlCarrito);
+    });
+
+    botonMas.forEach(boton => {
+    boton.addEventListener('click', aumentarCantidad);
+    }); 
+
+    botonMenos.forEach(boton => {
+    boton.addEventListener('click', disminuirCantidad);
+    });    
+
+});
+

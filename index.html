@@ -4,69 +4,111 @@
 	<meta charset="utf-8">
 	<title>Makalú | HomePage</title>
 	<link rel="stylesheet" type="text/css" href="./css/styles.css">
-</head>
+	<script src="./scripts/index.js"></script>
 <body>
 	<header>
 		<nav>
 			<ul>
 				<li><a href="./index.html">Inicio</a></li>
-				<li><a href="#">Servicios</a></li>
-				<li><a href="#">Nosotros</a></li>	
-                <li>
-                    <div id="logo">
-                        <a href="./index.html">
-                            <img src="./assets/images/Makalu-logo.PNG" alt="logo principal de Makalú">
-                        </a>
-                    </div>
-                </li>
-                <li><a href="#">Contacto</a></li>
+				<li><a href="./pages/prueba.html">Servicios</a></li>
+				<li><a href="#">Nosotros</a></li>
 				<li>
-                    <img src="./assets/icons/carrito.png" alt="">
-                    <a href="#">Carrito</a>
-                </li>
+					<div id="logo">
+						<a href="">
+							<img src="./assets/images/Makalu-logo.PNG" alt="logo principal de Makalú">
+						</a>
+					</div>
+				</li>
+				<li><a href="#">Contacto</a></li>
 				<li>
-                    <img src="./assets/icons/user.png" alt="">
-                    <a href="#">Mi cuenta</a>
-                </li>
+					<img src="./assets/icons/carrito.png" alt="">
+					<a href="#">Carrito</a>
+				</li>
+				<li>
+					<img src="./assets/icons/user.png" alt="">
+					<a href="#">Mi cuenta</a>
+				</li>
 			</ul>
 		</nav>
 	</header>
 	<main>
 		<section id="destacados">
-            <h2>Nuestros productos más destacados</h2>
+			<h2>Nuestros productos más destacados</h2>
 			<div class="productos-container">
-				<div class="producto">
-					<img src="./assets/images/printer1.png" alt="Producto 1">
+				<div class="producto" data-id="1" data-precio="2150" data-unidades="9">
+					<img src="./assets/images/printer1.jpg" alt="Producto 1">
 					<h3>HP Laserjet Pro M521dn</h3>
 					<p>Precio: $2150 USD</p>
-                    <p>Unidades: 9</p>
-					<button>Agregar al carrito</button>
+					<p>Unidades: 9</p>
+					<button class="boton boton-carrito" id="boton-agregar-1">Agregar al carrito</button>
 				</div>
-				<div class="producto">
-					<img src="./assets/images/printer2.png" alt="Producto 2">
+				<div class="producto" data-id="2" data-precio="1800" data-unidades="7">
+					<img src="./assets/images/printer2.jpg" alt="Producto 2">
 					<h3>Kyocera FS M3655idn</h3>
 					<p>Precio: $1800 USD</p>
 					<p>Unidades: 7</p>
-					<button>Agregar al carrito</button>
+					<button class="boton boton-carrito" id="boton-agregar-2">Agregar al carrito</button>
 				</div>
-				<div class="producto">
-					<img src="./assets/images/printer3.png" alt="Producto 3">
+				<div class="producto" data-id="3" data-precio="2300" data-unidades="11">
+					<img src="./assets/images/printer3.jpg" alt="Producto 3">
 					<h3>Lexmark XM3150</h3>
-					<p>Precio: $2300 USD</p>
-                    <p>Unidades: 11</p>
-					<button>Agregar al carrito</button>
+					<p>Precio: $2300
+					<p>Unidades: 11</p>
+					<button class="boton boton-carrito" id="boton-agregar-3">Agregar al carrito</button>
 				</div>
+				<!-- más productos destacados -->
 			</div>
 		</section>
-        <h2>Carrito de compras</h2>
-        <div id="carrito">   
-        </div>
-        <div id="total">
-        </div>
+		<h2>Carrito de compras</h2>
+		<div class="my-5">
+			<table class="table">
+			  <thead>
+				<tr>
+				  <th scope="col">#</th>
+				  <th scope="col">Item</th>
+				  <th scope="col">Cantidad</th>
+				  <th scope="col">Acción</th>
+				  <th scope="col">Total</th>
+				</tr>
+			  </thead>
+			  <tbody id="items"></tbody>
+			  <tfoot>
+				<thead>
+					<tr id="footer-carrito">
+						<th scope="row" colspan="5">Carrito vacío - comience a comprar!</th>
+					</tr>
+				</thead>
+			  </tfoot>
+			</table>
+		</div>
+		<template class="template-footer">
+			<th scope="row" colspan="2">Total productos</th>
+			<td>10</td>
+			<td>
+				<button class="boton" id="vaciar-carrito">
+					vaciar todo
+				</button>
+			</td>
+			<td class="font-weight-bold">$ <span>5000</span></td>
+		</template>
+		<template class="template-carrito">
+		  <tr>
+			<th scope="row">1</th>
+			<td>
+				<button class="boton" id="boton-mas">
+					+
+				</button>
+				<button class="boton" id="boton-menos">
+					-
+				</button>
+			</td>
+		  </tr>
+		</template>
 	</main>
+
 	<footer>
 		<p>&copy; 2023 - Makalú</p>
 	</footer>
-    <script src="./scripts/index.js"></script>
 </body>
+
 </html>

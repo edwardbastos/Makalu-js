@@ -209,6 +209,11 @@ nav {
     vertical-align: bottom;
     border-bottom: 2px solid #dee2e6;
   }
+
+  #boton-vaciar {
+    width: 100%;
+    text-align: right;
+  }
   
 
   

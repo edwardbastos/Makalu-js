@@ -1,8 +1,9 @@
 document.addEventListener("DOMContentLoaded", function() {
 
     const botonAgregar  = document.querySelectorAll('.boton-carrito');
-    const botonMas      = document.querySelector('.boton-mas')
-    const botonMenos    = document.querySelector('.boton-menos')
+    const botonMas      = document.querySelectorAll('#boton-mas')
+    const botonMenos    = document.querySelectorAll('#boton-menos')
+    const botonVaciar   = document.querySelector('#vaciar-carrito');
     const itemsCarrito  = document.querySelector('#items');
     const footerCarrito = document.querySelector('#footer-carrito');
 
@@ -36,7 +37,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function aumentarCantidad(index) {
-
         carrito[index].cantidad++;
         actualizarCarrito();
     }
@@ -50,16 +50,21 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         actualizarCarrito();
     }
-      
+
+    function vaciarCarrito() {
+        carrito = [];
+        actualizarCarrito();
+    } 
 
     function actualizarCarrito() {
 
         itemsCarrito.innerHTML = '';
-
+    
         carrito.forEach((item, index) => {
             const row = document.createElement('tr');
+            row.setAttribute('data-index', index); // agregamos el atributo data-index
             row.innerHTML = `
-            <th scope="row">${index + 1}</th>
+            <th scope="row" width="50">${index + 1}</th>
             <td>${item.nombre}</td>
             <td>${item.cantidad}</td>
             <td>
@@ -70,11 +75,11 @@ document.addEventListener("DOMContentLoaded", function() {
             `;
             itemsCarrito.appendChild(row);
         });
-
+    
         actualizarFooter();
-
+    
     }
-
+    
 
     function actualizarFooter() {
 
@@ -90,14 +95,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const row = document.createElement('tr');
         row.innerHTML = `
-            <th scope="row" colspan="2">Total productos</th>
+            <th scope="row" colspan="5">Total productos</th>
             <td>${cantidadTotal}</td>
+            <td class="font-weight-bold" width="150" >$ <span>${precioTotal}</span></td>
             <td>
-            <button class="boton" id="vaciar-carrito">
+            <button class="boton" id="vaciar-carrito" onclick="vaciarCarrito()">
                 vaciar todo
             </button>
             </td>
-            <td class="font-weight-bold">$ <span>${precioTotal}</span></td>
         `;
         footerCarrito.innerHTML = '';
         footerCarrito.appendChild(row);
@@ -108,12 +113,26 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     botonMas.forEach(boton => {
-    boton.addEventListener('click', aumentarCantidad);
-    }); 
-
+        boton.addEventListener('click', (event) => {
+            const index = event.target.parentElement.parentElement.getAttribute('data-index');
+            aumentarCantidad(index);
+        });
+    });
+    
     botonMenos.forEach(boton => {
-    boton.addEventListener('click', disminuirCantidad);
-    });    
+        boton.addEventListener('click', (event) => {
+            const index = event.target.parentElement.parentElement.getAttribute('data-index');
+            disminuirCantidad(index);
+        });
+    });
+
+    if (botonVaciar) {
+        botonVaciar.addEventListener('click', vaciarCarrito);
+    }
+    
+    window.aumentarCantidad = aumentarCantidad;
+    window.disminuirCantidad = disminuirCantidad;
+    window.vaciarCarrito  = vaciarCarrito;
 
 });
 

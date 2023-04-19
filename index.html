@@ -52,7 +52,7 @@
 				<div class="producto" data-id="3" data-precio="2300" data-unidades="11">
 					<img src="./assets/images/printer3.jpg" alt="Producto 3">
 					<h3>Lexmark XM3150</h3>
-					<p>Precio: $2300
+					<p>Precio: $2300 USD
 					<p>Unidades: 11</p>
 					<button class="boton boton-carrito" id="boton-agregar-3">Agregar al carrito</button>
 				</div>
@@ -82,28 +82,30 @@
 			</table>
 		</div>
 		<template class="template-footer">
-			<th scope="row" colspan="2">Total productos</th>
-			<td>2</td>
-			<td>
+			<tr>
+			  <th scope="row" colspan="2">Total productos</th>
+			  <td style="width: 20%;">2</td>
+			  <td style="width: 20%;">
 				<button class="boton" id="vaciar-carrito">
-					vaciar todo
+				  vaciar todo
 				</button>
-			</td>
-			<td class="font-weight-bold">$ <span>5000</span></td>
-		</template>
+			  </td>
+			  <td class="font-weight-bold" style="width: 60%;">$ <span>5000</span></td>
+			</tr>
+		</template>					
 		<template class="template-carrito">
-		  <tr>
-			<th scope="row">1</th>
-			<td>
+			<tr>
+			  <th scope="row" width="50">1</th>
+			  <td width="50">
 				<button class="boton" id="boton-mas">
-					+
+				  +
 				</button>
 				<button class="boton" id="boton-menos">
-					-
+				  -
 				</button>
-			</td>
-		  </tr>
-		</template>
+			  </td>
+			</tr>
+		</template>		  
 	</main>
 
 	<footer>

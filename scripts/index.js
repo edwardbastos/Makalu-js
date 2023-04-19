@@ -17,29 +17,44 @@ document.addEventListener("DOMContentLoaded", function() {
         const id = producto.getAttribute('data-id');
         const nombre = producto.querySelector('h3').textContent;
         const precio = producto.getAttribute('data-precio');
-        const cantidad = 1;
+        const cantidadDisponible = parseInt(producto.getAttribute('data-unidades'));
+        const cantidadSeleccionada = 1;
      
         let itemExistente = carrito.find(item => item.id === id);
+
         
         if (itemExistente) {
-           itemExistente.cantidad++;
+            if (itemExistente.cantidad < cantidadDisponible) {
+                itemExistente.cantidad++;
+            } else {
+                alert(`Lo sentimos, no puedes seleccionar más de ${cantidadDisponible} unidades de ${nombre}`);
+            }
         } else {
-           const item = {
-              id,
-              nombre,
-              precio,
-              cantidad
-           };
-           carrito.push(item);
+            const item = {
+                id,
+                nombre,
+                precio,
+                unidades: cantidadDisponible,
+                cantidad: cantidadSeleccionada
+            };
+            carrito.push(item);
         }
-     
+    
         actualizarCarrito();
     }
 
     function aumentarCantidad(index) {
+        const cantidadDisponible = carrito[index].unidades;
+      
+        if (carrito[index].cantidad >= cantidadDisponible) {
+          alert(`No puede seleccionar más de ${cantidadDisponible} unidades para este producto.`);
+          return;
+        }
+      
         carrito[index].cantidad++;
         actualizarCarrito();
     }
+
       
     function disminuirCantidad(index) {
         
@@ -95,15 +110,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const row = document.createElement('tr');
         row.innerHTML = `
-            <th scope="row" colspan="5">Total productos</th>
-            <td>${cantidadTotal}</td>
-            <td class="font-weight-bold" width="150" >$ <span>${precioTotal}</span></td>
-            <td>
-            <button class="boton" id="vaciar-carrito" onclick="vaciarCarrito()">
-                vaciar todo
-            </button>
+    
+            <th scope="row" colspan="1">Total productos</th>
+            <td style="width: 20%;">${cantidadTotal}</td>
+            <td style="width: 60%;" class="font-weight-bold">$ <span>${precioTotal}</span></td>
+            <td style="width: 20%;">
+                <button class="boton" id="vaciar-carrito" onclick="vaciarCarrito()">
+                    vaciar todo
+                </button>
             </td>
         `;
+
         footerCarrito.innerHTML = '';
         footerCarrito.appendChild(row);
     }

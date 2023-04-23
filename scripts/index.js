@@ -27,7 +27,12 @@ document.addEventListener("DOMContentLoaded", function() {
             if (itemExistente.cantidad < cantidadDisponible) {
                 itemExistente.cantidad++;
             } else {
-                alert(`Lo sentimos, no puedes seleccionar más de ${cantidadDisponible} unidades de ${nombre}`);
+                swal({
+                    title: "Cantidad máxima alcanzada",
+                    text: `Lo sentimos, no puedes seleccionar más de ${cantidadDisponible} unidades de ${nombre}`,
+                    icon: "warning",
+                    button: "Aceptar",
+                  });
             }
         } else {
             const item = {
